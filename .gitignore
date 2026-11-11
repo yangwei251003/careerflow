@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+.env
+.env.*
+!.env.example
+data/
+private/
+qa/private/
+*.sqlite*
+*.key
+*.pem
+*.log
+node_modules/
+scripts/ui_fields_update.py
+scripts/final_ui_fields.py

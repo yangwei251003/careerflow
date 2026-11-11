@@ -1,0 +1,31 @@
+CATALOG=[
+ {'name':'Stripe · 全球岗位','kind':'greenhouse','board':'stripe','url':'https://boards-api.greenhouse.io/v1/boards/stripe/jobs?content=true','company':'Stripe','region':'全球'},
+ {'name':'Cloudflare · 全球岗位','kind':'greenhouse','board':'cloudflare','url':'https://boards-api.greenhouse.io/v1/boards/cloudflare/jobs?content=true','company':'Cloudflare','region':'全球'},
+ {'name':'Spotify · 全球岗位','kind':'lever','board':'spotify','url':'https://api.lever.co/v0/postings/spotify?mode=json','company':'Spotify','region':'全球'},
+ {'name':'Palantir · 全球岗位','kind':'lever','board':'palantir','url':'https://api.lever.co/v0/postings/palantir?mode=json','company':'Palantir','region':'全球'},
+ {'name':'Linear · 招聘官网','kind':'ashby','board':'linear','url':'https://api.ashbyhq.com/posting-api/job-board/linear?includeCompensation=true','company':'Linear','region':'全球'},
+ {'name':'Ramp · 招聘官网','kind':'ashby','board':'ramp','url':'https://api.ashbyhq.com/posting-api/job-board/ramp?includeCompensation=true','company':'Ramp','region':'全球'},
+ {'name':'Shell · 官方职位系统','kind':'workday','url':'https://shell.wd3.myworkdayjobs.com/en-US/ShellCareers','company':'Shell','search':'China','region':'中国及全球'},
+ {'name':'伊莱特 · 制造业招聘','kind':'website','url':'https://www.iraeta.com/career','company':'伊莱特能源装备','region':'中国'},
+ {'name':'中航无人机 · 官方招聘','kind':'website','url':'https://avicuas.zhiye.com/','company':'中航无人机','region':'中国'},
+ {'name':'广东工业大学 · 企业招聘公告','kind':'website','url':'https://career.gdut.edu.cn/job/index','company':'','region':'中国'},
+ {'name':'国资委 · 国企招聘公告','kind':'website','url':'https://www.sasac.gov.cn/n2588035/n2588325/n2588350/index.html','company':'','region':'中国'},
+ {'name':'国家大学生就业服务平台','kind':'website','url':'https://www.ncss.cn/student/jobs/index.html','company':'','region':'中国'},
+ {'name':'腾讯 · 社会与校园招聘官网','kind':'website','url':'https://careers.tencent.com/jobopportunity.html','company':'腾讯','region':'中国及全球；动态页面待核'},
+ {'name':'华为 · 官方招聘','kind':'website','url':'https://career.huawei.com/cn/','company':'华为','region':'中国及全球；动态页面待核'},
+ {'name':'比亚迪 · 校园与社会招聘','kind':'website','url':'https://job.byd.com/portal/mobile/school-home','company':'比亚迪','region':'中国；动态页面待核'},
+ {'name':'美的 · 校园及实习官网','kind':'website','url':'https://careers.midea.com/','company':'美的集团','region':'中国；动态页面待核'},
+]
+
+PLATFORMS=[
+ {'name':'Greenhouse','collect':'公开职位API','apply':'原站表单；提交API需招聘方密钥','monitor':'邮件回执／用户记录','reference':'https://docs.greenhouse.io/job-board.html'},
+ {'name':'Lever','collect':'公开职位API','apply':'原站表单；提交API需招聘方管理员密钥','monitor':'邮件回执／用户记录','reference':'https://github.com/lever/postings-api'},
+ {'name':'Ashby','collect':'公开职位API','apply':'原站表单','monitor':'邮件回执／用户记录','reference':'https://developers.ashbyhq.com/docs/public-job-posting-api'},
+ {'name':'Workday','collect':'公开招聘网页数据，非稳定承诺的开放API','apply':'原站账户申请','monitor':'邮件回执／用户记录','reference':'https://shell.wd3.myworkdayjobs.com/ShellCareers'},
+ {'name':'企业官网／公告页','collect':'JSON-LD、公开正文、站内链接发现','apply':'有官方招聘邮箱时可授权邮件投递；否则原站','monitor':'IMAP邮箱／用户记录','reference':'https://schema.org/JobPosting'},
+ {'name':'BOSS直聘','collect':'本站链接导入、搜索API发现；账号浏览器适配未验收','apply':'原站登录，自动投递未接通','monitor':'平台内消息未接通','reference':'https://www.zhipin.com/'},
+ {'name':'智联招聘','collect':'本站链接导入、搜索API发现；账号适配未验收','apply':'原站登录，自动投递未接通','monitor':'平台内消息未接通','reference':'https://www.zhaopin.com/'},
+ {'name':'前程无忧','collect':'本站链接导入、搜索API发现；企业合作接口另需授权','apply':'原站登录，自动投递未接通','monitor':'平台内消息未接通','reference':'https://www.51job.com/'},
+ {'name':'猎聘','collect':'本站链接导入、搜索API发现；账号适配未验收','apply':'原站登录，自动投递未接通','monitor':'平台内消息未接通','reference':'https://www.liepin.com/'},
+ {'name':'LinkedIn／Indeed／实习僧／牛客','collect':'公开入口发现与来源核验，未建立账号级接口','apply':'原站申请或跳转企业官网','monitor':'授权邮箱／用户记录','reference':'https://www.linkedin.com/jobs/'},
+]

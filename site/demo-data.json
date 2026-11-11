@@ -1,0 +1,1080 @@
+{
+  "profile": {
+    "name": "林同学（虚构演示）",
+    "email": "demo@example.test",
+    "school": "示例大学（虚构）",
+    "education": "本科",
+    "major": "信息管理",
+    "graduation": "2028-06",
+    "skills": [
+      "Python",
+      "SQL",
+      "product",
+      "data",
+      "analysis"
+    ],
+    "roles": [
+      "数据分析",
+      "产品实习"
+    ],
+    "locations": [
+      "中国",
+      "上海"
+    ],
+    "languages": [
+      "英语：阅读公开技术资料（虚构样例）"
+    ],
+    "availability": "虚构档案，仅展示操作流程；不用于实际投递。",
+    "experience_years": 0,
+    "facts": [
+      {
+        "id": "demo-project",
+        "kind": "project",
+        "title": "课程数据分析项目（虚构）",
+        "org": "示例课程",
+        "dates": "2026.03—2026.06",
+        "text": "使用Python与SQL整理合成数据，定义产品指标并制作展示报告。",
+        "tags": "Python,SQL,product,data,analysis",
+        "evidence": "仅为产品演示而创建的虚构事实",
+        "verified": true
+      },
+      {
+        "id": "demo-team",
+        "kind": "leadership",
+        "title": "课程项目协作（虚构）",
+        "org": "示例小组",
+        "dates": "2026.03—2026.06",
+        "text": "拆解小组任务，整理需求文档并组织演示反馈。",
+        "tags": "product,team",
+        "evidence": "虚构样例",
+        "verified": true
+      }
+    ]
+  },
+  "jobs": [
+    {
+      "id": "public-1",
+      "data": {
+        "title": "Abuse Investigator",
+        "company": "Stripe",
+        "location": "Dublin",
+        "salary": "未披露",
+        "benefits": "未披露",
+        "workplace": "未披露",
+        "employment": "未披露",
+        "published": "2026-09-03T13:30:34-04:00",
+        "deadline": null,
+        "url": "https://stripe.com/jobs/search?gh_jid=8172487",
+        "apply_url": "https://stripe.com/jobs/search?gh_jid=8172487",
+        "source_url": "https://boards-api.greenhouse.io/v1/boards/stripe/jobs?content=true",
+        "source_name": "Stripe · 全球岗位",
+        "source_kind": "greenhouse",
+        "checked_at": 1794378738.2308252,
+        "kind": "job",
+        "status": "listed",
+        "evidence_level": "2026-11-11公开接口快照；现状请回原站复核",
+        "description": "【公开快照摘要，非完整JD；请点原始来源查看完整要求】\nWho we are\nAbout Stripe\nStripe is a financial infrastructure platform for businesses. Millions of companies - from the world’s largest enterprises to the most a"
+      },
+      "match": {
+        "verdict": "blocked",
+        "gates": [
+          "正式相关经验低于原文要求：5年"
+        ],
+        "warnings": [
+          "地点未与已填写的意向匹配；请确认异地/远程及工作资格"
+        ],
+        "constraints": {
+          "graduation_years": [],
+          "graduation_windows": [],
+          "experience_min": 5,
+          "degree_min": null
+        },
+        "evidence": [
+          {
+            "id": "demo-project",
+            "title": "课程数据分析项目（虚构）",
+            "terms": [
+              "analysis",
+              "data",
+              "product",
+              "python",
+              "sql"
+            ],
+            "overlap": 5
+          },
+          {
+            "id": "demo-team",
+            "title": "课程项目协作（虚构）",
+            "terms": [
+              "product",
+              "team"
+            ],
+            "overlap": 2
+          }
+        ],
+        "skill_hits": [
+          "Python",
+          "SQL",
+          "product",
+          "data",
+          "analysis"
+        ],
+        "profile_skills_not_seen": [],
+        "relevance": 74,
+        "note": "覆盖度只衡量已确认事实与文字关联，不是录用概率；签证、语言、专业细则仍需核对原文。"
+      }
+    },
+    {
+      "id": "public-2",
+      "data": {
+        "title": "Abuse Investigator",
+        "company": "Stripe",
+        "location": "Dublin",
+        "salary": "未披露",
+        "benefits": "未披露",
+        "workplace": "未披露",
+        "employment": "未披露",
+        "published": "2026-09-03T13:32:53-04:00",
+        "deadline": null,
+        "url": "https://stripe.com/jobs/search?gh_jid=8172508",
+        "apply_url": "https://stripe.com/jobs/search?gh_jid=8172508",
+        "source_url": "https://boards-api.greenhouse.io/v1/boards/stripe/jobs?content=true",
+        "source_name": "Stripe · 全球岗位",
+        "source_kind": "greenhouse",
+        "checked_at": 1794378738.2453432,
+        "kind": "job",
+        "status": "listed",
+        "evidence_level": "2026-11-11公开接口快照；现状请回原站复核",
+        "description": "【公开快照摘要，非完整JD；请点原始来源查看完整要求】\nWho we are\nAbout Stripe\nStripe is a financial infrastructure platform for businesses. Millions of companies - from the world’s largest enterprises to the most a"
+      },
+      "match": {
+        "verdict": "blocked",
+        "gates": [
+          "正式相关经验低于原文要求：3年"
+        ],
+        "warnings": [
+          "地点未与已填写的意向匹配；请确认异地/远程及工作资格"
+        ],
+        "constraints": {
+          "graduation_years": [],
+          "graduation_windows": [],
+          "experience_min": 3,
+          "degree_min": null
+        },
+        "evidence": [
+          {
+            "id": "demo-project",
+            "title": "课程数据分析项目（虚构）",
+            "terms": [
+              "analysis",
+              "data",
+              "product",
+              "python",
+              "sql"
+            ],
+            "overlap": 5
+          },
+          {
+            "id": "demo-team",
+            "title": "课程项目协作（虚构）",
+            "terms": [
+              "product",
+              "team"
+            ],
+            "overlap": 2
+          }
+        ],
+        "skill_hits": [
+          "Python",
+          "SQL",
+          "product",
+          "data",
+          "analysis"
+        ],
+        "profile_skills_not_seen": [],
+        "relevance": 74,
+        "note": "覆盖度只衡量已确认事实与文字关联，不是录用概率；签证、语言、专业细则仍需核对原文。"
+      }
+    },
+    {
+      "id": "public-3",
+      "data": {
+        "title": "Account Executive, FedCiv",
+        "company": "Cloudflare",
+        "location": "Hybrid",
+        "salary": "未披露",
+        "benefits": "未披露",
+        "workplace": "未披露",
+        "employment": "未披露",
+        "published": "2026-03-09T16:05:19-04:00",
+        "deadline": null,
+        "url": "https://boards.greenhouse.io/cloudflare/jobs/7695702?gh_jid=7695702",
+        "apply_url": "https://boards.greenhouse.io/cloudflare/jobs/7695702?gh_jid=7695702",
+        "source_url": "https://boards-api.greenhouse.io/v1/boards/cloudflare/jobs?content=true",
+        "source_name": "Cloudflare · 全球岗位",
+        "source_kind": "greenhouse",
+        "checked_at": 1794378740.7573302,
+        "kind": "job",
+        "status": "listed",
+        "evidence_level": "2026-11-11公开接口快照；现状请回原站复核",
+        "description": "【公开快照摘要，非完整JD；请点原始来源查看完整要求】\nAbout Us\nAt Cloudflare, we are on a mission to help build a better Internet. Today the company runs one of the world’s largest networks that powers millions of "
+      },
+      "match": {
+        "verdict": "blocked",
+        "gates": [
+          "正式相关经验低于原文要求：3年"
+        ],
+        "warnings": [
+          "地点未与已填写的意向匹配；请确认异地/远程及工作资格",
+          "原文包含工作许可/签证要求，需要按本人资格核对"
+        ],
+        "constraints": {
+          "graduation_years": [],
+          "graduation_windows": [],
+          "experience_min": 3,
+          "degree_min": null
+        },
+        "evidence": [
+          {
+            "id": "demo-project",
+            "title": "课程数据分析项目（虚构）",
+            "terms": [
+              "data"
+            ],
+            "overlap": 1
+          },
+          {
+            "id": "demo-team",
+            "title": "课程项目协作（虚构）",
+            "terms": [
+              "team"
+            ],
+            "overlap": 1
+          }
+        ],
+        "skill_hits": [
+          "product",
+          "data"
+        ],
+        "profile_skills_not_seen": [
+          "Python",
+          "SQL",
+          "analysis"
+        ],
+        "relevance": 28,
+        "note": "覆盖度只衡量已确认事实与文字关联，不是录用概率；签证、语言、专业细则仍需核对原文。"
+      }
+    },
+    {
+      "id": "public-4",
+      "data": {
+        "title": "Account Executive, Indonesia",
+        "company": "Cloudflare",
+        "location": "Hybrid",
+        "salary": "未披露",
+        "benefits": "未披露",
+        "workplace": "未披露",
+        "employment": "未披露",
+        "published": "2026-09-07T21:25:04-04:00",
+        "deadline": null,
+        "url": "https://boards.greenhouse.io/cloudflare/jobs/8172582?gh_jid=8172582",
+        "apply_url": "https://boards.greenhouse.io/cloudflare/jobs/8172582?gh_jid=8172582",
+        "source_url": "https://boards-api.greenhouse.io/v1/boards/cloudflare/jobs?content=true",
+        "source_name": "Cloudflare · 全球岗位",
+        "source_kind": "greenhouse",
+        "checked_at": 1794378740.7823918,
+        "kind": "job",
+        "status": "listed",
+        "evidence_level": "2026-11-11公开接口快照；现状请回原站复核",
+        "description": "【公开快照摘要，非完整JD；请点原始来源查看完整要求】\nAbout Us\nAt Cloudflare, we are on a mission to help build a better Internet. Today the company runs one of the world’s largest networks that powers millions of "
+      },
+      "match": {
+        "verdict": "review",
+        "gates": [],
+        "warnings": [
+          "地点未与已填写的意向匹配；请确认异地/远程及工作资格",
+          "原文包含工作许可/签证要求，需要按本人资格核对",
+          "原文包含语言水平要求，不能仅凭技能关键词判定满足"
+        ],
+        "constraints": {
+          "graduation_years": [],
+          "graduation_windows": [],
+          "experience_min": null,
+          "degree_min": null
+        },
+        "evidence": [
+          {
+            "id": "demo-project",
+            "title": "课程数据分析项目（虚构）",
+            "terms": [
+              "data"
+            ],
+            "overlap": 1
+          },
+          {
+            "id": "demo-team",
+            "title": "课程项目协作（虚构）",
+            "terms": [
+              "team"
+            ],
+            "overlap": 1
+          }
+        ],
+        "skill_hits": [
+          "product",
+          "data"
+        ],
+        "profile_skills_not_seen": [
+          "Python",
+          "SQL",
+          "analysis"
+        ],
+        "relevance": 28,
+        "note": "覆盖度只衡量已确认事实与文字关联，不是录用概率；签证、语言、专业细则仍需核对原文。"
+      }
+    },
+    {
+      "id": "public-5",
+      "data": {
+        "title": "Account Executive - Commercial, Spotify Technology",
+        "company": "Spotify",
+        "location": "New York, NY",
+        "salary": "未披露",
+        "benefits": "未披露",
+        "workplace": "hybrid",
+        "employment": "Permanent",
+        "published": "",
+        "deadline": "",
+        "url": "https://jobs.lever.co/spotify/2a55d6c9-c564-443a-be3e-a3851db5a93b",
+        "apply_url": "https://jobs.lever.co/spotify/2a55d6c9-c564-443a-be3e-a3851db5a93b/apply",
+        "source_url": "https://api.lever.co/v0/postings/spotify?mode=json",
+        "source_name": "Spotify · 全球岗位",
+        "source_kind": "lever",
+        "checked_at": 1794378760.8407714,
+        "kind": "job",
+        "status": "listed",
+        "evidence_level": "2026-11-11公开接口快照；现状请回原站复核",
+        "description": "【公开快照摘要，非完整JD；请点原始来源查看完整要求】\nSpotify Technology is our business-to-business software team, helping organizations improve how they build and deliver software. Our products, including Backsta"
+      },
+      "match": {
+        "verdict": "blocked",
+        "gates": [
+          "正式相关经验低于原文要求：4年"
+        ],
+        "warnings": [
+          "地点未与已填写的意向匹配；请确认异地/远程及工作资格"
+        ],
+        "constraints": {
+          "graduation_years": [],
+          "graduation_windows": [],
+          "experience_min": 4,
+          "degree_min": null
+        },
+        "evidence": [
+          {
+            "id": "demo-project",
+            "title": "课程数据分析项目（虚构）",
+            "terms": [
+              "data",
+              "product"
+            ],
+            "overlap": 2
+          },
+          {
+            "id": "demo-team",
+            "title": "课程项目协作（虚构）",
+            "terms": [
+              "product",
+              "team"
+            ],
+            "overlap": 2
+          }
+        ],
+        "skill_hits": [
+          "product",
+          "data"
+        ],
+        "profile_skills_not_seen": [
+          "Python",
+          "SQL",
+          "analysis"
+        ],
+        "relevance": 32,
+        "note": "覆盖度只衡量已确认事实与文字关联，不是录用概率；签证、语言、专业细则仍需核对原文。"
+      }
+    },
+    {
+      "id": "public-6",
+      "data": {
+        "title": "Account Executive - Commercial, Spotify Technology",
+        "company": "Spotify",
+        "location": "London",
+        "salary": "未披露",
+        "benefits": "未披露",
+        "workplace": "hybrid",
+        "employment": "Permanent",
+        "published": "",
+        "deadline": "",
+        "url": "https://jobs.lever.co/spotify/2d67c471-9015-41c0-a041-b982ec4a14fd",
+        "apply_url": "https://jobs.lever.co/spotify/2d67c471-9015-41c0-a041-b982ec4a14fd/apply",
+        "source_url": "https://api.lever.co/v0/postings/spotify?mode=json",
+        "source_name": "Spotify · 全球岗位",
+        "source_kind": "lever",
+        "checked_at": 1794378760.857342,
+        "kind": "job",
+        "status": "listed",
+        "evidence_level": "2026-11-11公开接口快照；现状请回原站复核",
+        "description": "【公开快照摘要，非完整JD；请点原始来源查看完整要求】\nSpotify Technology is our business-to-business software team, helping organizations improve how they build and deliver software. Our products, including Backsta"
+      },
+      "match": {
+        "verdict": "blocked",
+        "gates": [
+          "正式相关经验低于原文要求：4年"
+        ],
+        "warnings": [
+          "地点未与已填写的意向匹配；请确认异地/远程及工作资格"
+        ],
+        "constraints": {
+          "graduation_years": [],
+          "graduation_windows": [],
+          "experience_min": 4,
+          "degree_min": null
+        },
+        "evidence": [
+          {
+            "id": "demo-project",
+            "title": "课程数据分析项目（虚构）",
+            "terms": [
+              "data",
+              "product"
+            ],
+            "overlap": 2
+          },
+          {
+            "id": "demo-team",
+            "title": "课程项目协作（虚构）",
+            "terms": [
+              "product",
+              "team"
+            ],
+            "overlap": 2
+          }
+        ],
+        "skill_hits": [
+          "product",
+          "data"
+        ],
+        "profile_skills_not_seen": [
+          "Python",
+          "SQL",
+          "analysis"
+        ],
+        "relevance": 32,
+        "note": "覆盖度只衡量已确认事实与文字关联，不是录用概率；签证、语言、专业细则仍需核对原文。"
+      }
+    },
+    {
+      "id": "public-7",
+      "data": {
+        "title": " Security Engineer, Cloud",
+        "company": "Ramp",
+        "location": "New York, NY (HQ)",
+        "salary": "$211.4K - $290.6K",
+        "benefits": "未披露",
+        "workplace": "Hybrid",
+        "employment": "FullTime",
+        "published": "2026-04-07T17:12:35.753+00:00",
+        "deadline": "",
+        "url": "https://jobs.ashbyhq.com/ramp/34413f8d-26bf-4bbc-8ade-eb309a0e2245",
+        "apply_url": "https://jobs.ashbyhq.com/ramp/34413f8d-26bf-4bbc-8ade-eb309a0e2245/application",
+        "source_url": "https://api.ashbyhq.com/posting-api/job-board/ramp?includeCompensation=true",
+        "source_name": "Ramp · 招聘官网",
+        "source_kind": "ashby",
+        "checked_at": 1794378769.323382,
+        "kind": "job",
+        "status": "listed",
+        "evidence_level": "2026-11-11公开接口快照；现状请回原站复核",
+        "description": "【公开快照摘要，非完整JD；请点原始来源查看完整要求】\nABOUT RAMP\n\nRamp is building the smart infrastructure for finance teams, embedded in the transaction flow of every dollar a business spends. We automate how ove"
+      },
+      "match": {
+        "verdict": "blocked",
+        "gates": [
+          "正式相关经验低于原文要求：3年"
+        ],
+        "warnings": [
+          "地点未与已填写的意向匹配；请确认异地/远程及工作资格"
+        ],
+        "constraints": {
+          "graduation_years": [],
+          "graduation_windows": [],
+          "experience_min": 3,
+          "degree_min": null
+        },
+        "evidence": [
+          {
+            "id": "demo-project",
+            "title": "课程数据分析项目（虚构）",
+            "terms": [
+              "data",
+              "python"
+            ],
+            "overlap": 2
+          },
+          {
+            "id": "demo-team",
+            "title": "课程项目协作（虚构）",
+            "terms": [
+              "team"
+            ],
+            "overlap": 1
+          }
+        ],
+        "skill_hits": [
+          "Python",
+          "product",
+          "data"
+        ],
+        "profile_skills_not_seen": [
+          "SQL",
+          "analysis"
+        ],
+        "relevance": 42,
+        "note": "覆盖度只衡量已确认事实与文字关联，不是录用概率；签证、语言、专业细则仍需核对原文。"
+      }
+    },
+    {
+      "id": "public-8",
+      "data": {
+        "title": "Software Engineer, Android",
+        "company": "Ramp",
+        "location": "New York, NY (HQ)",
+        "salary": "$189K - $330K",
+        "benefits": "未披露",
+        "workplace": "Hybrid",
+        "employment": "FullTime",
+        "published": "2025-07-31T21:58:34.674+00:00",
+        "deadline": "",
+        "url": "https://jobs.ashbyhq.com/ramp/f564dcf9-9390-4a3f-896f-8047a5086040",
+        "apply_url": "https://jobs.ashbyhq.com/ramp/f564dcf9-9390-4a3f-896f-8047a5086040/application",
+        "source_url": "https://api.ashbyhq.com/posting-api/job-board/ramp?includeCompensation=true",
+        "source_name": "Ramp · 招聘官网",
+        "source_kind": "ashby",
+        "checked_at": 1794378769.339634,
+        "kind": "job",
+        "status": "listed",
+        "evidence_level": "2026-11-11公开接口快照；现状请回原站复核",
+        "description": "【公开快照摘要，非完整JD；请点原始来源查看完整要求】\nABOUT RAMP\n\nRamp is building the smart infrastructure for finance teams, embedded in the transaction flow of every dollar a business spends. We automate how ove"
+      },
+      "match": {
+        "verdict": "blocked",
+        "gates": [
+          "正式相关经验低于原文要求：1年"
+        ],
+        "warnings": [
+          "地点未与已填写的意向匹配；请确认异地/远程及工作资格"
+        ],
+        "constraints": {
+          "graduation_years": [],
+          "graduation_windows": [],
+          "experience_min": 1,
+          "degree_min": null
+        },
+        "evidence": [
+          {
+            "id": "demo-project",
+            "title": "课程数据分析项目（虚构）",
+            "terms": [
+              "product",
+              "python",
+              "sql"
+            ],
+            "overlap": 3
+          },
+          {
+            "id": "demo-team",
+            "title": "课程项目协作（虚构）",
+            "terms": [
+              "product"
+            ],
+            "overlap": 1
+          }
+        ],
+        "skill_hits": [
+          "Python",
+          "SQL",
+          "product",
+          "data"
+        ],
+        "profile_skills_not_seen": [
+          "analysis"
+        ],
+        "relevance": 56,
+        "note": "覆盖度只衡量已确认事实与文字关联，不是录用概率；签证、语言、专业细则仍需核对原文。"
+      }
+    },
+    {
+      "id": "public-9",
+      "data": {
+        "title": "Government Relations Manager, China",
+        "company": "Shell",
+        "location": "China World Trade Centre",
+        "salary": "未披露",
+        "benefits": "未披露",
+        "workplace": "未披露",
+        "employment": "Full time",
+        "published": "2026-10-22",
+        "deadline": "2026-12-31",
+        "url": "https://shell.wd3.myworkdayjobs.com/en-US/ShellCareers/job/China-World-Trade-Centre/Government-Relations-Manager--China_R213443",
+        "apply_url": "https://shell.wd3.myworkdayjobs.com/en-US/ShellCareers/job/China-World-Trade-Centre/Government-Relations-Manager--China_R213443",
+        "source_url": "https://shell.wd3.myworkdayjobs.com/en-US/ShellCareers",
+        "source_name": "Shell · 官方职位系统",
+        "source_kind": "workday",
+        "checked_at": 1794378845.02215,
+        "kind": "job",
+        "status": "listed",
+        "evidence_level": "2026-11-11公开接口快照；现状请回原站复核",
+        "description": "【公开快照摘要，非完整JD；请点原始来源查看完整要求】\nBeijing, China\nJob Family Group:\nCorporate Relations\nWorker Type:\nRegular\nPosting Start Date:\nOctober 22, 2026\nBusiness Unit:\nCoS and Corporate Relations\nExperi"
+      },
+      "match": {
+        "verdict": "blocked",
+        "gates": [
+          "正式相关经验低于原文要求：10年"
+        ],
+        "warnings": [],
+        "constraints": {
+          "graduation_years": [],
+          "graduation_windows": [],
+          "experience_min": 10,
+          "degree_min": null
+        },
+        "evidence": [
+          {
+            "id": "demo-project",
+            "title": "课程数据分析项目（虚构）",
+            "terms": [
+              "data"
+            ],
+            "overlap": 1
+          },
+          {
+            "id": "demo-team",
+            "title": "课程项目协作（虚构）",
+            "terms": [],
+            "overlap": 0
+          }
+        ],
+        "skill_hits": [
+          "data"
+        ],
+        "profile_skills_not_seen": [
+          "Python",
+          "SQL",
+          "product",
+          "analysis"
+        ],
+        "relevance": 14,
+        "note": "覆盖度只衡量已确认事实与文字关联，不是录用概率；签证、语言、专业细则仍需核对原文。"
+      }
+    },
+    {
+      "id": "public-10",
+      "data": {
+        "title": "Shell Assessed Internship Programme 2027 - China",
+        "company": "Shell",
+        "location": "Beijing",
+        "salary": "未披露",
+        "benefits": "未披露",
+        "workplace": "未披露",
+        "employment": "Full time",
+        "published": "2026-08-20",
+        "deadline": "2026-12-31",
+        "url": "https://shell.wd3.myworkdayjobs.com/en-US/ShellCareers/job/Beijing/Shell-Assessed-Internship-Programme-2027---China_R205120",
+        "apply_url": "https://shell.wd3.myworkdayjobs.com/en-US/ShellCareers/job/Beijing/Shell-Assessed-Internship-Programme-2027---China_R205120",
+        "source_url": "https://shell.wd3.myworkdayjobs.com/en-US/ShellCareers",
+        "source_name": "Shell · 官方职位系统",
+        "source_kind": "workday",
+        "checked_at": 1794378845.0381806,
+        "kind": "job",
+        "status": "listed",
+        "evidence_level": "2026-11-11公开接口快照；现状请回原站复核",
+        "description": "【公开快照摘要，非完整JD；请点原始来源查看完整要求】\nBeijing, China\nWorker Type:\nRegular\nPosting Start Date:\nAugust 20, 2026\nJob Description:\nJoin us as a Shell Assessed Intern and you can be a part of the future "
+      },
+      "match": {
+        "verdict": "review",
+        "gates": [],
+        "warnings": [
+          "存在毕业日期原文要求，请核对月份与范围"
+        ],
+        "constraints": {
+          "graduation_years": [],
+          "graduation_windows": [
+            "Graduate from Dec. 2027 to Aug. 2028 with a bachelor’s degree or above."
+          ],
+          "experience_min": null,
+          "degree_min": null
+        },
+        "evidence": [
+          {
+            "id": "demo-project",
+            "title": "课程数据分析项目（虚构）",
+            "terms": [
+              "data"
+            ],
+            "overlap": 1
+          },
+          {
+            "id": "demo-team",
+            "title": "课程项目协作（虚构）",
+            "terms": [
+              "team"
+            ],
+            "overlap": 1
+          }
+        ],
+        "skill_hits": [
+          "data"
+        ],
+        "profile_skills_not_seen": [
+          "Python",
+          "SQL",
+          "product",
+          "analysis"
+        ],
+        "relevance": 16,
+        "note": "覆盖度只衡量已确认事实与文字关联，不是录用概率；签证、语言、专业细则仍需核对原文。"
+      }
+    },
+    {
+      "id": "public-11",
+      "data": {
+        "title": "Administrative Business Partner",
+        "company": "Palantir",
+        "location": "Singapore, Singapore",
+        "salary": "未披露",
+        "benefits": "未披露",
+        "workplace": "hybrid",
+        "employment": "Full-time",
+        "published": "",
+        "deadline": "",
+        "url": "https://jobs.lever.co/palantir/6ed76ce8-4156-4b60-b120-403538bd66cd",
+        "apply_url": "https://jobs.lever.co/palantir/6ed76ce8-4156-4b60-b120-403538bd66cd/apply",
+        "source_url": "https://api.lever.co/v0/postings/palantir?mode=json",
+        "source_name": "Palantir · 全球岗位",
+        "source_kind": "lever",
+        "checked_at": 1794378897.8564334,
+        "kind": "job",
+        "status": "listed",
+        "evidence_level": "2026-11-11公开接口快照；现状请回原站复核",
+        "description": "【公开快照摘要，非完整JD；请点原始来源查看完整要求】\nA World-Changing Company\n \nPalantir builds the world’s leading software for data-driven decisions and operations. By bringing the right data to the people who n"
+      },
+      "match": {
+        "verdict": "review",
+        "gates": [],
+        "warnings": [
+          "地点未与已填写的意向匹配；请确认异地/远程及工作资格"
+        ],
+        "constraints": {
+          "graduation_years": [],
+          "graduation_windows": [],
+          "experience_min": null,
+          "degree_min": null
+        },
+        "evidence": [
+          {
+            "id": "demo-project",
+            "title": "课程数据分析项目（虚构）",
+            "terms": [
+              "data"
+            ],
+            "overlap": 1
+          },
+          {
+            "id": "demo-team",
+            "title": "课程项目协作（虚构）",
+            "terms": [
+              "team"
+            ],
+            "overlap": 1
+          }
+        ],
+        "skill_hits": [
+          "product",
+          "data"
+        ],
+        "profile_skills_not_seen": [
+          "Python",
+          "SQL",
+          "analysis"
+        ],
+        "relevance": 28,
+        "note": "覆盖度只衡量已确认事实与文字关联，不是录用概率；签证、语言、专业细则仍需核对原文。"
+      }
+    },
+    {
+      "id": "public-12",
+      "data": {
+        "title": "American Tech Fellowship",
+        "company": "Palantir",
+        "location": "North America",
+        "salary": "未披露",
+        "benefits": "未披露",
+        "workplace": "remote",
+        "employment": "Scholarship",
+        "published": "",
+        "deadline": "",
+        "url": "https://jobs.lever.co/palantir/0ccbe620-a3ef-41d1-a5c4-68e56b3c91d0",
+        "apply_url": "https://jobs.lever.co/palantir/0ccbe620-a3ef-41d1-a5c4-68e56b3c91d0/apply",
+        "source_url": "https://api.lever.co/v0/postings/palantir?mode=json",
+        "source_name": "Palantir · 全球岗位",
+        "source_kind": "lever",
+        "checked_at": 1794378897.8722024,
+        "kind": "job",
+        "status": "listed",
+        "evidence_level": "2026-11-11公开接口快照；现状请回原站复核",
+        "description": "【公开快照摘要，非完整JD；请点原始来源查看完整要求】\nA World-Changing Company\n \nPalantir builds the world’s leading software for data-driven decisions and operations. By bringing the right data to the people who n"
+      },
+      "match": {
+        "verdict": "blocked",
+        "gates": [
+          "正式相关经验低于原文要求：2年"
+        ],
+        "warnings": [
+          "地点未与已填写的意向匹配；请确认异地/远程及工作资格"
+        ],
+        "constraints": {
+          "graduation_years": [],
+          "graduation_windows": [],
+          "experience_min": 2,
+          "degree_min": null
+        },
+        "evidence": [
+          {
+            "id": "demo-project",
+            "title": "课程数据分析项目（虚构）",
+            "terms": [
+              "data",
+              "product",
+              "python",
+              "sql"
+            ],
+            "overlap": 4
+          },
+          {
+            "id": "demo-team",
+            "title": "课程项目协作（虚构）",
+            "terms": [
+              "product"
+            ],
+            "overlap": 1
+          }
+        ],
+        "skill_hits": [
+          "Python",
+          "SQL",
+          "product",
+          "data"
+        ],
+        "profile_skills_not_seen": [
+          "analysis"
+        ],
+        "relevance": 58,
+        "note": "覆盖度只衡量已确认事实与文字关联，不是录用概率；签证、语言、专业细则仍需核对原文。"
+      }
+    }
+  ],
+  "catalog": {
+    "sources": [
+      {
+        "name": "Stripe · 全球岗位",
+        "kind": "greenhouse",
+        "board": "stripe",
+        "url": "https://boards-api.greenhouse.io/v1/boards/stripe/jobs?content=true",
+        "company": "Stripe",
+        "region": "全球"
+      },
+      {
+        "name": "Cloudflare · 全球岗位",
+        "kind": "greenhouse",
+        "board": "cloudflare",
+        "url": "https://boards-api.greenhouse.io/v1/boards/cloudflare/jobs?content=true",
+        "company": "Cloudflare",
+        "region": "全球"
+      },
+      {
+        "name": "Spotify · 全球岗位",
+        "kind": "lever",
+        "board": "spotify",
+        "url": "https://api.lever.co/v0/postings/spotify?mode=json",
+        "company": "Spotify",
+        "region": "全球"
+      },
+      {
+        "name": "Palantir · 全球岗位",
+        "kind": "lever",
+        "board": "palantir",
+        "url": "https://api.lever.co/v0/postings/palantir?mode=json",
+        "company": "Palantir",
+        "region": "全球"
+      },
+      {
+        "name": "Linear · 招聘官网",
+        "kind": "ashby",
+        "board": "linear",
+        "url": "https://api.ashbyhq.com/posting-api/job-board/linear?includeCompensation=true",
+        "company": "Linear",
+        "region": "全球"
+      },
+      {
+        "name": "Ramp · 招聘官网",
+        "kind": "ashby",
+        "board": "ramp",
+        "url": "https://api.ashbyhq.com/posting-api/job-board/ramp?includeCompensation=true",
+        "company": "Ramp",
+        "region": "全球"
+      },
+      {
+        "name": "Shell · 官方职位系统",
+        "kind": "workday",
+        "url": "https://shell.wd3.myworkdayjobs.com/en-US/ShellCareers",
+        "company": "Shell",
+        "search": "China",
+        "region": "中国及全球"
+      },
+      {
+        "name": "伊莱特 · 制造业招聘",
+        "kind": "website",
+        "url": "https://www.iraeta.com/career",
+        "company": "伊莱特能源装备",
+        "region": "中国"
+      },
+      {
+        "name": "中航无人机 · 官方招聘",
+        "kind": "website",
+        "url": "https://avicuas.zhiye.com/",
+        "company": "中航无人机",
+        "region": "中国"
+      },
+      {
+        "name": "广东工业大学 · 企业招聘公告",
+        "kind": "website",
+        "url": "https://career.gdut.edu.cn/job/index",
+        "company": "",
+        "region": "中国"
+      },
+      {
+        "name": "国资委 · 国企招聘公告",
+        "kind": "website",
+        "url": "https://www.sasac.gov.cn/n2588035/n2588325/n2588350/index.html",
+        "company": "",
+        "region": "中国"
+      },
+      {
+        "name": "国家大学生就业服务平台",
+        "kind": "website",
+        "url": "https://www.ncss.cn/student/jobs/index.html",
+        "company": "",
+        "region": "中国"
+      },
+      {
+        "name": "腾讯 · 社会与校园招聘官网",
+        "kind": "website",
+        "url": "https://careers.tencent.com/jobopportunity.html",
+        "company": "腾讯",
+        "region": "中国及全球；动态页面待核"
+      },
+      {
+        "name": "华为 · 官方招聘",
+        "kind": "website",
+        "url": "https://career.huawei.com/cn/",
+        "company": "华为",
+        "region": "中国及全球；动态页面待核"
+      },
+      {
+        "name": "比亚迪 · 校园与社会招聘",
+        "kind": "website",
+        "url": "https://job.byd.com/portal/mobile/school-home",
+        "company": "比亚迪",
+        "region": "中国；动态页面待核"
+      },
+      {
+        "name": "美的 · 校园及实习官网",
+        "kind": "website",
+        "url": "https://careers.midea.com/",
+        "company": "美的集团",
+        "region": "中国；动态页面待核"
+      }
+    ],
+    "platforms": [
+      {
+        "name": "Greenhouse",
+        "collect": "公开职位API",
+        "apply": "原站表单；提交API需招聘方密钥",
+        "monitor": "邮件回执／用户记录",
+        "reference": "https://docs.greenhouse.io/job-board.html"
+      },
+      {
+        "name": "Lever",
+        "collect": "公开职位API",
+        "apply": "原站表单；提交API需招聘方管理员密钥",
+        "monitor": "邮件回执／用户记录",
+        "reference": "https://github.com/lever/postings-api"
+      },
+      {
+        "name": "Ashby",
+        "collect": "公开职位API",
+        "apply": "原站表单",
+        "monitor": "邮件回执／用户记录",
+        "reference": "https://developers.ashbyhq.com/docs/public-job-posting-api"
+      },
+      {
+        "name": "Workday",
+        "collect": "公开招聘网页数据，非稳定承诺的开放API",
+        "apply": "原站账户申请",
+        "monitor": "邮件回执／用户记录",
+        "reference": "https://shell.wd3.myworkdayjobs.com/ShellCareers"
+      },
+      {
+        "name": "企业官网／公告页",
+        "collect": "JSON-LD、公开正文、站内链接发现",
+        "apply": "有官方招聘邮箱时可授权邮件投递；否则原站",
+        "monitor": "IMAP邮箱／用户记录",
+        "reference": "https://schema.org/JobPosting"
+      },
+      {
+        "name": "BOSS直聘",
+        "collect": "本站链接导入、搜索API发现；账号浏览器适配未验收",
+        "apply": "原站登录，自动投递未接通",
+        "monitor": "平台内消息未接通",
+        "reference": "https://www.zhipin.com/"
+      },
+      {
+        "name": "智联招聘",
+        "collect": "本站链接导入、搜索API发现；账号适配未验收",
+        "apply": "原站登录，自动投递未接通",
+        "monitor": "平台内消息未接通",
+        "reference": "https://www.zhaopin.com/"
+      },
+      {
+        "name": "前程无忧",
+        "collect": "本站链接导入、搜索API发现；企业合作接口另需授权",
+        "apply": "原站登录，自动投递未接通",
+        "monitor": "平台内消息未接通",
+        "reference": "https://www.51job.com/"
+      },
+      {
+        "name": "猎聘",
+        "collect": "本站链接导入、搜索API发现；账号适配未验收",
+        "apply": "原站登录，自动投递未接通",
+        "monitor": "平台内消息未接通",
+        "reference": "https://www.liepin.com/"
+      },
+      {
+        "name": "LinkedIn／Indeed／实习僧／牛客",
+        "collect": "公开入口发现与来源核验，未建立账号级接口",
+        "apply": "原站申请或跳转企业官网",
+        "monitor": "授权邮箱／用户记录",
+        "reference": "https://www.linkedin.com/jobs/"
+      }
+    ]
+  }
+}
