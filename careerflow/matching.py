@@ -33,7 +33,7 @@ def constraints(job):
  if re.search(r'博士(?:及以上|学历|学位)|(?:Ph\.?D\.?|doctorate)\s+(?:required|degree required)',s,re.I):degree='博士'
  elif re.search(r'硕士(?:及以上|学历)|master.?s? degree required',s,re.I):degree='硕士'
  elif re.search(r'本科(?:及以上|学历)|bachelor.?s? degree (?:is )?required',s,re.I):degree='本科'
- return {'graduation_years':sorted(years),'graduation_windows':graduation_windows,'experience_min':min(required_exp) if required_exp else None,'degree_min':degree}
+ return {'graduation_years':sorted(years),'graduation_windows':graduation_windows,'experience_min':max(required_exp) if required_exp else None,'degree_min':degree}
 
 def match(profile,job):
  gates=[];warnings=[];c=constraints(job)

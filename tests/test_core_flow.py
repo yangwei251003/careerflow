@@ -218,3 +218,16 @@ def test_imap_correlates_self_and_reply_without_unrelated_mail(client,monkeypatc
  result=mail.poll_mail(owner);assert result['new']==2;assert result['mail_test']['self_seen'];assert result['mail_test']['reply_seen']
  assert all(x[1]=='HEADER' for x in imap.searches);assert mail.poll_mail(owner)['new']==0
  assert len(client.get('/api/messages').json())==2
+
+def test_working_professional_resume_uses_actual_graduation(client):
+ p=profile();p.update(graduation='2020-06',experience_years=6)
+ client.put('/api/profile',json=p);owner,jid,j=job(client,description='SQL Python，3年以上工作经验')
+ rid=client.post('/api/jobs/'+jid+'/resume',json={}).json()['id']
+ body=client.get('/api/resumes/'+rid+'/txt').text
+ assert '毕业 2020-06' in body and '预计毕业' not in body
+
+def test_multiple_experience_requirements_do_not_lower_overall_minimum():
+ p=profile();p['experience_years']=3
+ j={'kind':'job','status':'listed','description':'5 years of industry experience\n2 years of Python experience'}
+ assert match(p,j)['constraints']['experience_min']==5
+ assert match(p,j)['gates']

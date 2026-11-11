@@ -1,5 +1,5 @@
 from __future__ import annotations
-import json,html,re
+import json,html,re,datetime as dt
 from pathlib import Path
 from docx import Document
 from docx.shared import Pt,Inches,RGBColor
@@ -42,7 +42,9 @@ def build_resume(owner,profile,job,job_id,selected=None):
  target=job.get('title') or profile.get('headline','')
  blocks=[('name',profile['name']),('target',target),('contact',' | '.join(filter(None,[profile.get('phone'),profile.get('email'),profile.get('portfolio')])))]
  if profile.get('school'):
-  blocks+=[('heading','教育背景'),('body',' · '.join(filter(None,[profile.get('school'),profile.get('education'),profile.get('major'),('预计毕业 '+profile['graduation']) if profile.get('graduation') else ''])))]
+  graduation=profile.get('graduation','')
+  label='毕业 ' if graduation and graduation<dt.date.today().strftime('%Y-%m') else '预计毕业 '
+  blocks+=[('heading','教育背景'),('body',' · '.join(filter(None,[profile.get('school'),profile.get('education'),profile.get('major'),(label+graduation) if graduation else ''])))]
  if profile.get('skills'):blocks+=[('heading','相关能力'),('body',' · '.join(profile['skills']))]
  section=None
  kindmap={'work':'工作与实习','project':'相关项目','leadership':'组织与实践','award':'荣誉与资格'}
