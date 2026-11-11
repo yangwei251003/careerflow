@@ -231,3 +231,53 @@ def test_multiple_experience_requirements_do_not_lower_overall_minimum():
  j={'kind':'job','status':'listed','description':'5 years of industry experience\n2 years of Python experience'}
  assert match(p,j)['constraints']['experience_min']==5
  assert match(p,j)['gates']
+
+def test_provider_rewritten_message_id_and_followup_reply(client,monkeypatch):
+ from email.message import EmailMessage
+ owner=client.get('/api/me').json()['id'];smtp=FakeSMTP();cfg={'username':'mytest@example.test','imap_host':'imap.example.test'}
+ monkeypatch.setattr(mail,'config',lambda o:cfg);monkeypatch.setattr(mail,'smtp_connect',lambda c:smtp)
+ original=mail.send_self_test(owner);received=smtp.sent[0];received.replace_header('Message-ID','<provider-rewritten@example.test>')
+ reply=EmailMessage();reply['From']=cfg['username'];reply['To']=cfg['username'];reply['Message-ID']='<reply-by-client@example.test>';reply['In-Reply-To']='<provider-rewritten@example.test>';reply['Subject']='后来改过的回复标题';reply.set_content('协议替身回复')
+ unrelated=EmailMessage();unrelated['Message-ID']='<unrelated@example.test>';unrelated.set_content('不得读取正文')
+ class ProviderIMAP:
+  def __init__(self):self.messages={b'1':received,b'3':unrelated};self.body_fetches=[]
+  def uid(self,op,*args):
+   if op=='search':
+    header,query=args[2],args[3].strip('"')
+    matches=[k for k,m in self.messages.items() if query in str(m.get(header,''))]
+    # Return an unrelated header too, ensuring the client never fetches its body.
+    return 'OK',[b' '.join(matches+[b'3'])]
+   if args[1]=='(BODY.PEEK[])':self.body_fetches.append(args[0])
+   return 'OK',[(b'RFC822.SIZE 1024',self.messages[args[0]].as_bytes())]
+  def response(self,*a):return 'UIDVALIDITY',[b'9']
+  def logout(self):pass
+ imap=ProviderIMAP();monkeypatch.setattr(mail,'imap_connect',lambda cfg:imap)
+ r=mail.poll_mail(owner);assert r['new']==1 and r['mail_test']['self_seen'];assert not r['mail_test']['reply_seen']
+ assert r['mail_test']['observed_message_ids']==['<provider-rewritten@example.test>']
+ imap.messages[b'2']=reply
+ r=mail.poll_mail(owner);assert r['new']==1 and r['mail_test']['reply_seen'];assert mail.poll_mail(owner)['new']==0
+ assert b'3' not in imap.body_fetches
+ assert [r['data']['classification'] for r in client.get('/api/messages').json()]==['关联测试回复','自发测试邮件']
+
+def test_imap_search_failure_not_silently_reported_success(client,monkeypatch):
+ owner=client.get('/api/me').json()['id'];smtp=FakeSMTP()
+ monkeypatch.setattr(mail,'config',lambda o:{'username':'mytest@example.test','imap_host':'imap.example.test'});monkeypatch.setattr(mail,'smtp_connect',lambda c:smtp)
+ mail.send_self_test(owner)
+ class FailedSearch:
+  def uid(self,*a):return 'NO',[b'temporary search failure']
+  def logout(self):pass
+ monkeypatch.setattr(mail,'imap_connect',lambda c:FailedSearch())
+ with pytest.raises(ValueError,match='搜索未完成'):mail.poll_mail(owner)
+ assert not core.get_settings(owner)['mail_test']['self_seen']
+
+def test_mail_identifier_matching_is_exact_and_imap_quoted():
+ assert '<abc@example.test>' not in mail.message_ids('<prefix-abc@example.test>')
+ assert mail.imap_quote('a"b\\c')=='"a\\"b\\\\c"'
+ with pytest.raises(ValueError):mail.imap_quote('unsafe\r\nHEADER Subject')
+
+def test_mail_sync_coalesces_pending_clicks_and_task_is_private(client):
+ a=client.post('/api/mail/poll',json={}).json()['task_id']
+ assert client.post('/api/mail/poll',json={}).json()['task_id']==a
+ assert client.get('/api/tasks/'+a).json()['state']=='queued'
+ client.post('/api/logout',json={});client.post('/api/auth/register',json={'name':'第二账号','email':'second@example.test','password':'Second-Password-123'})
+ assert client.get('/api/tasks/'+a).status_code==404

@@ -1,1 +1,11 @@
-{"name":"careerflow-acceptance","version":"0.1.0","private":true,"scripts":{"test:browser":"node scripts/browser_check.cjs"},"devDependencies":{"playwright":"1.62.1"}}
+{
+  "name": "careerflow-acceptance",
+  "version": "0.1.1",
+  "private": true,
+  "scripts": {
+    "test:browser": "node scripts/browser_check.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  }
+}

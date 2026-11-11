@@ -67,9 +67,14 @@ def owned(table,id,owner):
  for key in ('data','result','last_result'):
   if key in d:d[key]=load(d[key])
  return d
-def enqueue(owner,kind,data):
+def enqueue(owner,kind,data,deduplicate=False):
  id=uid()
- with db() as c:c.execute('INSERT INTO tasks(id,owner,kind,state,data,created,updated) VALUES(?,?,?,?,?,?,?)',(id,owner,kind,'queued',dump(data),now(),now()))
+ with db() as c:
+  if deduplicate:
+   c.execute('BEGIN IMMEDIATE')
+   old=c.execute("SELECT id FROM tasks WHERE owner=? AND kind=? AND data=? AND state IN ('queued','running') LIMIT 1",(owner,kind,dump(data))).fetchone()
+   if old:return old['id']
+  c.execute('INSERT INTO tasks(id,owner,kind,state,data,created,updated) VALUES(?,?,?,?,?,?,?)',(id,owner,kind,'queued',dump(data),now(),now()))
  return id
 
 def public_url(url):

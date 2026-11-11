@@ -100,7 +100,7 @@ def worker():
      for row in owners:
       cfg=get_settings(row['owner'])
       if cfg.get('mail',{}).get('poll_enabled') and now()-cfg.get('last_mail_poll',0)>300:
-       cfg['last_mail_poll']=now();save_settings(row['owner'],cfg);enqueue(row['owner'],'mail_poll',{})
+       cfg['last_mail_poll']=now();save_settings(row['owner'],cfg);enqueue(row['owner'],'mail_poll',{},deduplicate=True)
     if len(futures)>=3:continue
     with db() as c:
      c.execute('BEGIN IMMEDIATE');task=c.execute("SELECT * FROM tasks WHERE state='queued' ORDER BY created LIMIT 1").fetchone()

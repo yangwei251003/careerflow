@@ -6,4 +6,5 @@ beautifulsoup4>=4.12,<5
 python-docx>=1.1,<2
 reportlab>=4,<5
 python-multipart>=0.0.18
+pypdf>=6,<7
 pytest>=8,<10

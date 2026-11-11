@@ -2,7 +2,7 @@ from __future__ import annotations
 import email,imaplib,re,smtplib,ssl
 from email.message import EmailMessage
 from email.policy import default
-from email.utils import formatdate,make_msgid,parseaddr
+from email.utils import formatdate,make_msgid,parseaddr,getaddresses
 from .core import DATA,db,uid,now,dump,load,get_settings,save_settings,public_host,owned,event,digest
 
 def config(owner):
@@ -22,7 +22,15 @@ def smtp_connect(cfg):
 
 def imap_connect(cfg):
  c=imaplib.IMAP4_SSL(cfg['imap_host'],int(cfg.get('imap_port',993)),ssl_context=ssl.create_default_context(),timeout=25)
- c.login(cfg['username'],cfg.get('imap_password') or cfg['password']);c.select('INBOX',readonly=True);return c
+ try:
+  c.login(cfg['username'],cfg.get('imap_password') or cfg['password'])
+  status,_=c.select('INBOX',readonly=True)
+  if status!='OK':raise ValueError('邮箱未允许只读打开收件箱，请检查IMAP服务状态')
+  return c
+ except Exception:
+  try:c.logout()
+  except Exception:pass
+  raise
 
 def send_self_test(owner):
  cfg=config(owner);token='CFTEST-'+uid();msg=EmailMessage();msg['From']=cfg['username'];msg['To']=cfg['username'];msg['Subject']='职航真实邮件链路测试 '+token;msg['Date']=formatdate(localtime=True);msg['Message-ID']=make_msgid(domain=cfg['username'].split('@')[-1]);msg.set_content('这是你授权的职航测试邮件，未发送给招聘企业。\n测试标识：'+token+'\n可以回复这封邮件，再在职航同步收件箱，验证回信关联。')
@@ -109,48 +117,91 @@ def decode_body(msg):
   content=text(content)
  return str(content)[:16000]
 
+def message_ids(value):
+ return set(re.findall(r'<[^<>\s]+>',str(value)))
+
+def imap_quote(value):
+ if len(value)>500 or any(c in value for c in '\r\n') or not value.isascii():raise ValueError('邮件关联标识格式无效')
+ return '"'+value.replace('\\','\\\\').replace('"','\\"')+'"'
+
 def poll_mail(owner):
- cfg=config(owner);settings=get_settings(owner);test=settings.get('mail_test',{});refs={}
- with db() as c:apps=c.execute("SELECT id,data FROM applications WHERE owner=? AND state IN ('smtp_accepted','send_unknown','receipt_received','reply_received')",(owner,)).fetchall()
+ cfg=config(owner);test=get_settings(owner).get('mail_test',{});refs={};tokens={};app_data={}
+ with db() as c:apps=c.execute("SELECT id,data FROM applications WHERE owner=? AND state IN ('smtp_accepted','send_unknown','receipt_received','reply_received','interview','offer','rejected') ORDER BY updated DESC LIMIT 100",(owner,)).fetchall()
  for a in apps:
-  data=load(a['data'])
-  if data.get('message_id'):refs[data['message_id']]=a['id']
- if test.get('message_id'):refs[test['message_id']]='self-test'
+  data=load(a['data']);app_data[a['id']]=data
+  if data.get('message_id'):
+   refs[data['message_id']]=a['id'];tokens['[CF-'+a['id']+']']=a['id']
+   for mid in data.get('thread_message_ids',[])[-20:]:refs[mid]=a['id']
+ if test.get('message_id'):
+  refs[test['message_id']]='self-test'
+  for mid in test.get('observed_message_ids',[])[-10:]:refs[mid]='self-test'
+  if re.fullmatch(r'CFTEST-[a-f0-9]{24}',test.get('token','')):tokens[test['token']]='self-test'
  if not refs:return {'new':0,'note':'尚无已发送邮件可关联，未扫描无关私人邮件'}
  c=imap_connect(cfg);count=0
  try:
   found=set()
-  for ref in list(refs)[-100:]:
-   for header in ['References','In-Reply-To','Message-ID']:
-    status,rows=c.uid('search',None,'HEADER',header,'"'+ref+'"')
-    if status=='OK' and rows and rows[0]:found.update(rows[0].split())
-  validity=c.response('UIDVALIDITY')[1];validity=str(validity)
+  queries=[('Subject',token) for token in tokens]
+  queries += [(header,ref) for ref in list(refs)[-200:] for header in ['References','In-Reply-To','Message-ID']]
+  for header,value in queries:
+   status,rows=c.uid('search',None,'HEADER',header,imap_quote(value))
+   if status!='OK':raise ValueError('邮箱关联搜索未完成，请稍后同步；未标记为收取成功')
+   if rows and rows[0]:found.update(rows[0].split())
+  validity=str(c.response('UIDVALIDITY')[1])
   for mail_uid in sorted(found,key=int)[-300:]:
    key=digest(cfg['imap_host']+cfg['username']+validity+mail_uid.decode())
-   with db() as conn:
-    if conn.execute('SELECT 1 FROM messages WHERE owner=? AND mail_key=?',(owner,key)).fetchone():continue
-   status,rows=c.uid('fetch',mail_uid,'(BODY.PEEK[])')
+   # Check linkage in headers before fetching any message body.
+   status,rows=c.uid('fetch',mail_uid,'(BODY.PEEK[HEADER] RFC822.SIZE)')
    if status!='OK':continue
    raw=next((r[1] for r in rows if isinstance(r,tuple)),None)
-   if not raw or len(raw)>3_000_000:continue
-   msg=email.message_from_bytes(raw,policy=default);references=str(msg.get('References',''))+' '+str(msg.get('In-Reply-To',''));mid=str(msg.get('Message-ID',''));sender=parseaddr(str(msg.get('From','')))[1]
-   linked=next((v for k,v in refs.items() if k in references or k==mid),None)
+   if not raw or len(raw)>200_000:continue
+   sizes=re.findall(rb'RFC822.SIZE\s+(\d+)',b' '.join(r[0] for r in rows if isinstance(r,tuple)))
+   if sizes and max(map(int,sizes))>3_000_000:continue
+   msg=email.message_from_bytes(raw,policy=default)
+   references=str(msg.get('References',''))+' '+str(msg.get('In-Reply-To',''));ref_ids=message_ids(references)
+   mid=str(msg.get('Message-ID','')).strip();subject=str(msg.get('Subject',''))
+   linked=next((refs[x] for x in [mid]+sorted(ref_ids) if x in refs),None);method='邮件引用标识'
+   if not linked:
+    linked=next((value for token,value in tokens.items() if token in subject),None);method='标题唯一追踪标识'
    if not linked:continue
-   auto=str(msg.get('Auto-Submitted','')).lower() not in {'','no'};is_self=sender.lower()==cfg['username'].lower()
-   data={'sender':str(msg.get('From','')),'subject':str(msg.get('Subject','')),'date':str(msg.get('Date','')),'body':decode_body(msg),'message_id':mid,'references':references,'classification':'自动回执' if auto else '自发邮件' if is_self and mid in refs else '关联回信','source':'IMAP真实读取'}
-   with db() as conn:conn.execute('INSERT OR IGNORE INTO messages VALUES(?,?,?,?,?,?)',(uid(),owner,key,linked,dump(data),now()))
-   count+=1
+   sender=parseaddr(str(msg.get('From','')))[1];is_self=sender.lower()==cfg['username'].lower()
+   test_roots={test.get('message_id',''),*test.get('observed_message_ids',[])}
+   is_original=linked=='self-test' and is_self and (mid in test_roots or (test.get('token','!') in subject and not ref_ids))
+   if is_original and cfg['username'].lower() not in {addr.lower() for _,addr in getaddresses(msg.get_all('To',[]))}:continue
+   auto=str(msg.get('Auto-Submitted','')).lower() not in {'','no'}
+   with db() as conn:existing=conn.execute('SELECT id FROM messages WHERE owner=? AND mail_key=?',(owner,key)).fetchone()
+   if not existing:
+    status,parts=c.uid('fetch',mail_uid,'(BODY.PEEK[])')
+    if status!='OK':continue
+    body_raw=next((r[1] for r in parts if isinstance(r,tuple)),None)
+    if not body_raw or len(body_raw)>3_000_000:continue
+    full=email.message_from_bytes(body_raw,policy=default)
+    classification='自发测试邮件' if is_original else '关联测试回复' if linked=='self-test' and ref_ids & test_roots else '测试相关邮件' if linked=='self-test' else '自动回执' if auto else '自发邮件' if is_self else '关联回信'
+    data={'sender':str(msg.get('From','')),'subject':subject,'date':str(msg.get('Date','')),'body':decode_body(full),'message_id':mid,'references':references,'classification':classification,'source':'IMAP真实读取','matching_method':method}
+    with db() as conn:inserted=conn.execute('INSERT OR IGNORE INTO messages VALUES(?,?,?,?,?,?)',(uid(),owner,key,linked,dump(data),now())).rowcount
+    count+=inserted
    if linked=='self-test':
-    if mid==test.get('message_id'):test['self_seen']=True
-    elif test.get('message_id','!') in references:test['reply_seen']=True
-    test['checked_at']=now();settings['mail_test']=test
-   elif not is_self:
-    update_state(owner,linked,'receipt_received' if auto else 'reply_received',{'last_message_id':mid,'source':'IMAP','note':'已收到关联邮件；是否面试/录用需阅读原文'})
+    if is_original:
+     test['self_seen']=True
+     if mid and mid not in test.get('observed_message_ids',[]):test['observed_message_ids']=(test.get('observed_message_ids',[])+[mid])[-10:]
+     if mid:refs[mid]='self-test'
+    elif ref_ids & test_roots:test['reply_seen']=True
+    test['checked_at']=now()
+   else:
+    if mid and mid not in app_data[linked].get('thread_message_ids',[]):
+     app_data[linked]['thread_message_ids']=(app_data[linked].get('thread_message_ids',[])+[mid])[-20:];refs[mid]=linked
+     with db() as conn:
+      latest_app=load(conn.execute('SELECT data FROM applications WHERE id=? AND owner=?',(linked,owner)).fetchone()['data'])
+      latest_app['thread_message_ids']=app_data[linked]['thread_message_ids'];conn.execute('UPDATE applications SET data=? WHERE id=? AND owner=?',(dump(latest_app),linked,owner))
+    if not is_self and not existing:
+     current=owned('applications',linked,owner)['state']
+     if current not in {'interview','offer','rejected'}:update_state(owner,linked,'receipt_received' if auto else 'reply_received',{'last_message_id':mid,'source':'IMAP','note':'已收到关联邮件；是否面试/录用需阅读原文'})
   latest=get_settings(owner)
   if latest.get('mail_test',{}).get('message_id')==test.get('message_id'):
+   test['self_seen']=test.get('self_seen',False) or latest['mail_test'].get('self_seen',False)
+   test['reply_seen']=test.get('reply_seen',False) or latest['mail_test'].get('reply_seen',False)
    latest['mail_test']=test
   latest['last_mail_poll']=now();save_settings(owner,latest)
  finally:
   try:c.logout()
   except Exception:pass
- return {'new':count,'mail_test':test,'checked_references':len(refs)}
+ return {'new':count,'mail_test':test,'checked_references':len(refs),'checked_tracking_tokens':len(tokens)}

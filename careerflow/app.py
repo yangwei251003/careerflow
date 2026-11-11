@@ -2,7 +2,7 @@ from __future__ import annotations
 import asyncio,contextlib,json,os,re,secrets,sqlite3,time
 from pathlib import Path
 from urllib.parse import urlsplit
-from fastapi import FastAPI,Request,Response,HTTPException,Depends
+from fastapi import FastAPI,Request,Response,HTTPException,Depends,UploadFile,File
 from fastapi.responses import FileResponse,JSONResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.trustedhost import TrustedHostMiddleware
@@ -13,6 +13,9 @@ from .matching import match
 from .resumes import build_resume,ai_advice,interview_pack
 from .mail import prepare_application,update_state,send_application,send_self_test
 from . import worker
+from .imports import preview_resume,MAX_FILE
+from .exports import resume_archive,application_csv
+from .local_models import validate_local,local_chat,status as local_status,BASE as LOCAL_BASE,DEFAULT_MODEL
 
 @contextlib.asynccontextmanager
 async def lifespan(app):
@@ -30,7 +33,10 @@ async def guard(req,call_next):
   if req.headers.get('x-careerflow')!='1':return JSONResponse({'detail':'请从职航页面发起操作'},status_code=403)
   origin=req.headers.get('origin')
   if origin and urlsplit(origin).netloc!=req.headers.get('host'):return JSONResponse({'detail':'来源校验失败'},status_code=403)
-  if int(req.headers.get('content-length','0'))>1_000_000:return JSONResponse({'detail':'请求内容过大'},status_code=413)
+  maximum=MAX_FILE+100_000 if req.url.path=='/api/profile/import-preview' else 1_000_000
+  try:length=int(req.headers.get('content-length','0'))
+  except ValueError:return JSONResponse({'detail':'请求长度格式无效'},status_code=400)
+  if length>maximum:return JSONResponse({'detail':'请求内容过大'},status_code=413)
  response=await call_next(req)
  response.headers['X-Content-Type-Options']='nosniff';response.headers['Referrer-Policy']='no-referrer'
  response.headers['Content-Security-Policy']="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
@@ -53,7 +59,7 @@ def session(response,owner):
  response.set_cookie('cf_session',token,httponly=True,samesite='strict',secure=os.environ.get('CAREERFLOW_HTTPS')=='1',max_age=604800)
 
 @app.get('/api/health')
-def health():return {'ok':True,'version':'0.1.0','mode':'本机完整应用','external_submission':'仅已授权邮箱；平台内自动投递未接通'}
+def health():return {'ok':True,'version':'0.1.1','mode':'本机完整应用','external_submission':'仅已授权邮箱；平台内自动投递未接通'}
 @app.post('/api/auth/{action}')
 def auth(action:str,p:dict,response:Response,req:Request):
  ip=req.client.host if req.client else 'local';attempts=[t for t in rate.get(ip,[]) if t>now()-60];rate[ip]=attempts+[now()]
@@ -86,6 +92,12 @@ def save_profile(p:dict,u=Depends(user)):
  p=normalize_profile(p)
  with db() as c:c.execute('INSERT INTO profiles VALUES(?,?) ON CONFLICT(owner) DO UPDATE SET data=excluded.data',(u['id'],dump(p)))
  return p
+@app.post('/api/profile/import-preview')
+async def import_profile(file:UploadFile=File(...),u=Depends(user)):
+ try:
+  content=await file.read(MAX_FILE+1)
+  return preview_resume(file.filename or '',content)
+ finally:await file.close()
 @app.get('/api/settings')
 def settings(u=Depends(user)):
  cfg=get_settings(u['id'])
@@ -97,14 +109,19 @@ def settings(u=Depends(user)):
 @app.put('/api/settings')
 def set_settings(p:dict,u=Depends(user)):
  cfg=get_settings(u['id'])
- allowed={'llm':{'base_url','model','key'},'search':{'provider','key'},'mail':{'username','password','imap_password','smtp_host','smtp_port','imap_host','imap_port','poll_enabled'}}
+ allowed={'llm':{'provider','base_url','model','key'},'search':{'provider','key'},'mail':{'username','password','imap_password','smtp_host','smtp_port','imap_host','imap_port','poll_enabled'}}
  for section,keys in allowed.items():
   if section not in p:continue
   old=cfg.get(section,{});incoming={k:v for k,v in p[section].items() if k in keys}
   for k in ('key','password','imap_password'):
    if k in incoming and not incoming[k]:incoming.pop(k)
   merged=old|incoming
-  if section=='llm' and merged.get('base_url'):public_url(merged['base_url'])
+  if section=='llm':
+   if merged.get('provider','openai') not in {'openai','ollama'}:raise ValueError('模型服务类型无效')
+   if merged.get('provider')=='ollama':
+    merged['base_url']=merged.get('base_url') or LOCAL_BASE;merged['model']=merged.get('model') or DEFAULT_MODEL
+    validate_local(merged);merged.pop('key',None)
+   elif merged.get('base_url'):public_url(merged['base_url'])
   if section=='search' and merged.get('provider') not in {'yuanbao','tavily'}:raise ValueError('搜索服务类型无效')
   if section=='mail':
    for k in ('smtp_host','imap_host'):
@@ -116,14 +133,19 @@ def set_settings(p:dict,u=Depends(user)):
 @app.post('/api/settings/test-model')
 def test_model(u=Depends(user)):
  cfg=get_settings(u['id']).get('llm',{})
+ if cfg.get('provider')=='ollama':
+  answer,stats=local_chat(cfg,[{'role':'user','content':'只回复：本地连接正常'}],max_tokens=30)
+  return {'ok':True,'note':f'本地AI已真实响应（{stats["elapsed_seconds"]}秒）；无需API密钥，没有发送个人档案','runtime':stats}
  if not all(cfg.get(k) for k in ['base_url','key','model']):raise ValueError('请先保存完整模型配置')
  d=fetch(cfg['base_url'].rstrip('/')+'/chat/completions','POST',{'model':cfg['model'],'messages':[{'role':'user','content':'Reply with OK.'}],'max_tokens':8},headers={'Authorization':'Bearer '+cfg['key']},timeout=50).json()
  if not d.get('choices'):raise ValueError('模型响应格式不兼容')
  return {'ok':True,'note':'模型已真实响应；没有发送个人档案'}
+@app.get('/api/settings/local-models')
+def local_models(u=Depends(user)):return local_status()
 @app.post('/api/mail/self-test')
 def mail_test(u=Depends(user)):return send_self_test(u['id'])
 @app.post('/api/mail/poll')
-def mail_poll(u=Depends(user)):return {'task_id':enqueue(u['id'],'mail_poll',{})}
+def mail_poll(u=Depends(user)):return {'task_id':enqueue(u['id'],'mail_poll',{},deduplicate=True)}
 @app.get('/api/catalog')
 def catalog(u=Depends(user)):return {'sources':CATALOG,'platforms':PLATFORMS}
 @app.get('/api/sources')
@@ -168,6 +190,8 @@ def workflow(p:dict,u=Depends(user)):
 def tasks(u=Depends(user)):
  with db() as c:rows=c.execute('SELECT * FROM tasks WHERE owner=? ORDER BY created DESC LIMIT 30',(u['id'],)).fetchall()
  return [{**dict(r),'data':load(r['data']),'result':load(r['result'])} for r in rows]
+@app.get('/api/tasks/{id}')
+def task(id:str,u=Depends(user)):return owned('tasks',id,u['id'])
 @app.get('/api/jobs')
 def jobs(q:str='',kind:str='',verdict:str='',offset:int=0,limit:int=40,u=Depends(user)):
  p=get_profile(u['id'])
@@ -235,6 +259,9 @@ def resume(id:str,p:dict,u=Depends(user)):return build_resume(u['id'],get_profil
 def resumes(u=Depends(user)):
  with db() as c:rows=c.execute('SELECT * FROM resumes WHERE owner=? ORDER BY created DESC',(u['id'],)).fetchall()
  return [{**dict(r),'data':load(r['data'])} for r in rows]
+@app.post('/api/resumes/export')
+def export_resumes(p:dict,u=Depends(user)):
+ return Response(resume_archive(u['id'],p.get('ids'),p.get('formats')),media_type='application/zip',headers={'Content-Disposition':'attachment; filename="CareerFlow-resumes.zip"'})
 @app.get('/api/resumes/{id}/{format}')
 def download(id:str,format:str,u=Depends(user)):
  r=owned('resumes',id,u['id'])
@@ -246,6 +273,9 @@ def download(id:str,format:str,u=Depends(user)):
 def applications(u=Depends(user)):
  with db() as c:rows=c.execute('SELECT * FROM applications WHERE owner=? ORDER BY updated DESC',(u['id'],)).fetchall()
  return [{**dict(r),'data':load(r['data'])} for r in rows]
+@app.get('/api/applications/export.csv')
+def export_applications(u=Depends(user)):
+ return Response(application_csv(u['id']),media_type='text/csv',headers={'Content-Disposition':'attachment; filename="CareerFlow-applications.csv"'})
 @app.post('/api/applications')
 def application(p:dict,u=Depends(user)):return prepare_application(u['id'],p['job_id'],p['resume_id'])
 @app.post('/api/applications/{id}/record')

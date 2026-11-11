@@ -1,4 +1,4 @@
-$ErrorActionPreference = 'Stop'
+﻿$ErrorActionPreference = 'Stop'
 $cfRoot = [System.IO.Path]::GetFullPath((Split-Path -Parent $PSScriptRoot))
 $cfPidFile = Join-Path $cfRoot 'data/server.pid'
 if (!(Test-Path -LiteralPath $cfPidFile)) { Write-Output '没有本项目启动记录。'; exit 0 }
